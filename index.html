@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coach BOS — Esports Shoutmaster | BOS Esports</title>
+  <meta name="description" content="Talk to Coach BOS — your AI esports shoutmaster from Puerto Rico. Game tips, training advice, GAMERGY info, and PR esports scene knowledge. Bilingual EN/ES.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --dark: #0a0a0f;
+      --dark-surface: #12121a;
+      --dark-card: #1a1a25;
+      --gold: #FFD700;
+      --orange: #FF6B35;
+      --teal: #00D9A5;
+      --text: #e8e8ed;
+      --muted: #8888a0;
+      --gradient-gold: linear-gradient(135deg, #FFD700, #FF6B35);
+      --radius: 20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* === BACKGROUND GRID === */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(rgba(255,215,0,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,215,0,.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* === GLOW ORB === */
+    .glow-orb {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(150px);
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-orb.gold { background: var(--gold); top: -200px; right: -200px; }
+    .glow-orb.teal { background: var(--teal); bottom: -200px; left: -200px; opacity: 0.1; }
+
+    /* === NAV === */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(10,10,15,.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,215,0,.08);
+    }
+    .nav-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 2px;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-brand span {
+      -webkit-text-fill-color: var(--text);
+      font-size: 16px;
+      letter-spacing: 1px;
+      margin-left: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 400;
+    }
+    .nav-flag {
+      font-size: 24px;
+    }
+
+    /* === HERO === */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 24px 60px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 20px;
+      border-radius: 50px;
+      background: rgba(255,215,0,.08);
+      border: 1px solid rgba(255,215,0,.15);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gold);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      animation: fadeInDown .6s ease;
+    }
+    .badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 8px var(--teal);
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .4; }
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(56px, 12vw, 120px);
+      line-height: .9;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+      animation: fadeInUp .6s ease;
+    }
+    .hero-title .gold {
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(20px, 4vw, 36px);
+      letter-spacing: 6px;
+      color: var(--muted);
+      margin-bottom: 32px;
+      animation: fadeInUp .6s ease .1s both;
+    }
+
+    .hero-desc {
+      max-width: 560px;
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 48px;
+      animation: fadeInUp .6s ease .2s both;
+    }
+
+    /* === CTA BUTTON === */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 48px;
+      border-radius: 50px;
+      background: var(--gradient-gold);
+      color: var(--dark);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 2px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all .3s ease;
+      box-shadow: 0 0 40px rgba(255,215,0,.15);
+      animation: fadeInUp .6s ease .3s both;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 60px rgba(255,215,0,.25);
+    }
+    .cta-btn:active {
+      transform: scale(.97);
+    }
+    .cta-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--dark);
+    }
+
+    /* === WIDGET EMBED SECTION === */
+    .widget-section {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+      animation: fadeInUp .6s ease .4s both;
+    }
+
+    .widget-container {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(255,215,0,.1);
+      background: var(--dark-surface);
+      box-shadow: 0 20px 80px rgba(0,0,0,.5);
+    }
+
+    .widget-container elevenlabs-convai {
+      width: 100%;
+      display: block;
+    }
+
+    /* === FEATURES === */
+    .features {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 24px 100px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      padding: 32px 28px;
+      border-radius: var(--radius);
+      background: var(--dark-card);
+      border: 1px solid rgba(255,215,0,.06);
+      transition: all .3s ease;
+    }
+    .feature-card:hover {
+      border-color: rgba(255,215,0,.15);
+      transform: translateY(-4px);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+    .feature-icon.gold { background: rgba(255,215,0,.1); }
+    .feature-icon.orange { background: rgba(255,107,53,.1); }
+    .feature-icon.teal { background: rgba(0,217,165,.1); }
+
+    .feature-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .feature-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    /* === FOOTER === */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid rgba(255,215,0,.06);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+    footer .pr {
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    /* === ANIMATIONS === */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 600px) {
+      .hero { padding: 90px 20px 40px; }
+      .hero-desc { font-size: 15px; }
+      .cta-btn { padding: 16px 36px; font-size: 20px; }
+      .features { padding: 20px 20px 80px; }
+      .feature-card { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-orb gold"></div>
+  <div class="glow-orb teal"></div>
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-brand">BOS ESPORTS <span>| Coach BOS</span></div>
+    <div class="nav-flag">🇵🇷</div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge">AI Voice Agent — Live</div>
+    <h1 class="hero-title">
+      <span class="gold">COACH</span><br>BOS
+    </h1>
+    <p class="hero-subtitle">ESPORTS SHOUTMASTER</p>
+    <p class="hero-desc">
+      Your AI esports coach from Puerto Rico. Game tips, training advice, GAMERGY intel, and everything about the PR esports scene. Bilingual. Always ready. Talk to Coach BOS.
+    </p>
+    <a href="#talk" class="cta-btn">
+      <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2" fill="none" stroke="var(--dark)" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="19" x2="12" y2="23" stroke="var(--dark)" stroke-width="2" stroke-linecap="round"/></svg>
+      TALK TO COACH BOS
+    </a>
+  </section>
+
+  <!-- Widget Section -->
+  <section class="widget-section" id="talk">
+    <div class="widget-container">
+      <!-- 
+        ELEVENLABS WIDGET EMBED
+        Replace AGENT_ID_HERE with your actual ElevenLabs agent ID
+      -->
+      <elevenlabs-convai agent-id="agent_1201kjfh7e5heemrfg2s8444t8hh"></elevenlabs-convai>
+      <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="feature-card">
+      <div class="feature-icon gold">🎮</div>
+      <div class="feature-title">GAME STRATEGY</div>
+      <p class="feature-text">Valorant, LoL, Fortnite, Rocket League, Street Fighter, Tekken — get real coaching talk for your main game.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon orange">🏆</div>
+      <div class="feature-title">PR ESPORTS SCENE</div>
+      <p class="feature-text">First Attack, ESPR, PREL, GAMERGY Puerto Rico 2026 — Coach BOS knows every org, player, and tournament on the island.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon teal">🧠</div>
+      <div class="feature-title">TRAINING & MENTAL GAME</div>
+      <p class="feature-text">Warmups, reaction speed, aim training, tilt management. Level up your performance with real coaching advice.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div><a href="https://bosesports.com">BOS Esports</a> — Built by <a href="https://gostardigital.com">GoStar Digital LLC</a></div>
+    <div class="pr">Proudly from Puerto Rico 🇵🇷</div>
+  </footer>
+
+</body>
+</html>
