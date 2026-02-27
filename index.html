@@ -310,6 +310,16 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* === ELEVENLABS WIDGET FIX === */
+    elevenlabs-convai {
+      position: fixed !important;
+      bottom: 24px !important;
+      right: 24px !important;
+      left: auto !important;
+      top: auto !important;
+      z-index: 999 !important;
+    }
+
     /* === RESPONSIVE === */
     @media (max-width: 600px) {
       .hero { padding: 90px 20px 40px; }
@@ -338,11 +348,6 @@
       Your AI esports coach from Puerto Rico. Game tips, training advice, and everything about the PR esports scene. Bilingual. Always ready. Talk to Coach BOS.
     </p>
 
-    <div style="animation:fadeInUp .6s ease .3s both;">
-      <elevenlabs-convai agent-id="agent_1201kjfh7e5heemrfg2s8444t8hh"></elevenlabs-convai>
-      <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
-    </div>
-
   </section>
 
   <!-- Features -->
@@ -369,6 +374,10 @@
     <div><a href="https://bosesports.com">BOS Esports</a> — Built by <a href="https://gostardigital.com">GoStar Digital LLC</a></div>
     <div class="pr">Proudly from Puerto Rico 🇵🇷</div>
   </footer>
+
+  <!-- ElevenLabs Voice Widget — fixed bottom right -->
+  <elevenlabs-convai agent-id="agent_1201kjfh7e5heemrfg2s8444t8hh"></elevenlabs-convai>
+  <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
 
 </body>
 </html>
